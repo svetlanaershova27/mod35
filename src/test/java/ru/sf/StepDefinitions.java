@@ -1,7 +1,9 @@
 package ru.sf;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -11,50 +13,63 @@ import static org.junit.Assert.assertEquals;
 
 
 /**
- * Варинаты запуска сценариев:
- * Команда 'mvn clean test' в консоли
- * Через UI intellij IDEA
- */
+ Created by me
+ **/
 public class StepDefinitions {
 
     public static final WebDriver webDriver;
-    public static final ChooseCityPage chooseCityPage;
-    public static final CityMenuPage cityMenuPage;
+    public static final ChooseItemPage CHOOSE_ITEM_PAGE;
+    public static final CallaLiliesPage CALLA_LILIES_PAGE;
+    public static final FilterSpecial FILTER_SPECIAL;
 
     //Процесс инициализации необходимых ресурсов
     static {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\amidi\\IdeaProjects\\сс-scenario\\src\\test\\resources\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\ersho\\IdeaProjects\\mod35\\src\\test\\resources\\chromedriver.exe");
         webDriver = new ChromeDriver();
-        webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        webDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(14));
         webDriver.manage().window().maximize();
-        chooseCityPage = new ChooseCityPage(webDriver);
-        cityMenuPage = new CityMenuPage(webDriver);
+        CHOOSE_ITEM_PAGE = new ChooseItemPage(webDriver);
+        CALLA_LILIES_PAGE = new CallaLiliesPage(webDriver);
+        FILTER_SPECIAL = new FilterSpecial(webDriver);
     }
 
-    //Реализация шага
-    //Текст должен строго соответствоать тексту сценария
-    @Given("url of restaurant {string}")
-    public void url_of_restaurant(String url) {
-        chooseCityPage.go(url);
+    @Then("assert that user was notified with message {string}")
+    public void assertThatUserWasNotifiedWithMessage(String successMessage) {
+        final var flowerMessage = CALLA_LILIES_PAGE.assertBouquetWasAddedToCard();
+        assertEquals(successMessage, flowerMessage);
     }
 
-    //Реализация шага
-    @Then("chose city {string}")
-    public void chose_city(String city) {
-        chooseCityPage.searchCity(city);
+    @When("chose an item on the main page")
+    public void choseAnItemOnTheMainPage() {
+        CHOOSE_ITEM_PAGE.chooseWeddingComposition();
+        CHOOSE_ITEM_PAGE.selectSpecificSort();
     }
 
-    //Реализация шага
-    @Then("assert that chosen city is {string}")
-    public void assert_that_chosen_city_is(String expectedCity) {
-        final var currentActiveCity = cityMenuPage.getCurrentActiveCity();
-        assertEquals(expectedCity, currentActiveCity);
+    @Then("chose the first item")
+    public void choseTheFirstItem() {
+        CALLA_LILIES_PAGE.getFirstItem();
     }
 
-    //Реализация шага
-    @Then("assert that user got message {string}")
-    public void assert_that_user_got_message(String errorMessage) {
-        final var cityNotFoundMessage = chooseCityPage.getCityNotFoundMessage();
-        assertEquals(errorMessage, cityNotFoundMessage);
+    @And("add item to card")
+    public void addItemToCard() {
+        CALLA_LILIES_PAGE.addItemToCard();
+
+    }
+
+    @When("chose an item applying  filters")
+    public void choseAnItemApplyingFilters() {
+        FILTER_SPECIAL.chooseComposition();
+        FILTER_SPECIAL.selectPlantVarieties();
+        FILTER_SPECIAL.selectColour();
+    }
+
+    @Then("assert that user saw message {string}")
+    public void assertThatUserSawMessage( String message) {
+        FILTER_SPECIAL.getItemNotFoundMessage(message);
+    }
+
+    @Given("url of website {string}")
+    public void urlOfWebsite(String url) {
+        CHOOSE_ITEM_PAGE.go(url);
     }
 }

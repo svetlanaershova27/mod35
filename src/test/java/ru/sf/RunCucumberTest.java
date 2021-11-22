@@ -1,5 +1,6 @@
 package ru.sf;
 
+import io.cucumber.java.After;
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 import org.junit.AfterClass;
@@ -10,8 +11,8 @@ import org.junit.runner.RunWith;
 @CucumberOptions(features = "classpath:features")
 public class RunCucumberTest {
     //Закрываем браузер, когда тесты отработали
-    @AfterClass
+    @After
     public static void finalizeResources() {
-        StepDefinitions.webDriver.close();
+        StepDefinitions.webDriver.quit();
     }
 }
