@@ -7,7 +7,7 @@ Feature: Find restaurant
     Then chose the first item
     And add item to card
     Then assert that user was notified with message 'Букет добавлен в корзину'
-  #Негативный сценарий: вводим данные несуществующего пользователя, получаем соответствуещее уведомление
+  #Негативный сценарий: выбираем позиции для букета, которого нет в наличии
   Scenario: chose a bouquet for special edition
     Given url of website 'https://florcat.ru/'
     When  chose an item applying  filters
