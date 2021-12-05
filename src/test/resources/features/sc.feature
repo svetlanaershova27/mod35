@@ -1,5 +1,5 @@
 #Gherkin
-Feature: Find restaurant
+Feature: Find bouquet
   #Позитивный сценарий: выбираем  букет по классификации и получаем уведомление о добавлении товара в корзину
   Scenario: chose a bouquet
     Given url of website 'https://florcat.ru/'

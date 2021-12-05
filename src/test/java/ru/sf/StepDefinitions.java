@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 
 /**
  Created by me
- **/
+ */
 public class StepDefinitions {
 
     public static final WebDriver webDriver;
